@@ -4,7 +4,7 @@
 
 ###Alkuasetelma
 
-Vagrantilla on luotu virtuaalikone, Ubuntu 14.04.5 LTS. Luomme moduulin, joka asentaa Apachen ja konfiguroi valmiiksi virtuaalihostit, käyttäjien kotihakemistot ja hosts-tiedoston nimet.
+Vagrantilla on luotu virtuaalikone, Ubuntu 14.04.5 LTS. Luomme moduulin, joka asentaa Apachen ja konfiguroi valmiiksi käyttäjien kotihakemistot ja tekee /etc/skel -hakemistoon public_html -hakemiston.
 
 Asennetaan ensiksi koneelle Puppet
 
@@ -79,5 +79,5 @@ Tehtävä oli itselleni hyvää Puppet-kertaamista ja pahempia ongelmatilanteita
 
 ###Lähteet
 
-http://terokarvinen.com
-https://www.puppetcookbook.com/
+* http://terokarvinen.com
+* https://www.puppetcookbook.com/
