@@ -1,3 +1,8 @@
+##
+## Author: Juha-Matti Ohvo
+## github: juhmtti
+##
+
 class apache2 {
 
 	# Ensure apache2 is installed and the latest version is present
