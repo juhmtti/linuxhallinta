@@ -25,7 +25,7 @@ Luodaan /etc/puppet/modules/ hakemistoon uusi hakemisto, johon moduulimme luodaa
 	cd /etc/puppet/modules/
 	sudo mkdir -p apache/manifests apache/templates
 
-Mooduli löytyy liitteenä.
+Luodaan manifests-hakemistoon init.pp tiedosto, johon moduuli kirjoitetaan.
 
 
 ###Moduulin testaaminen
@@ -67,6 +67,6 @@ Hakemisto löytyy käyttäjän kotihakemistosta. Luodaan hakemistoon index-html 
 
 Vagrantilla luodumme koneen ip:osoite on 192.168.0.20, joten tarkistetaan verkkoselaimella, että luotu tiedosto näkyy.
 
-	selainkuva
+![testikuva](./linux1_1.png)
 
 Kuten kuvasta näkee, niin onnistuimme tekemään moduulin onnistuneesti, joka asentaa meille Apache2-palvelimen, poistaa oletuksena olevan index-html -tiedoston /var/www/html -hakemistosta, ottaa käyttäjien kotihakemistot käyttöön ja luo public_html -hakemiston skel-hakemistoon.
