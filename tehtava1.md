@@ -1,4 +1,8 @@
-Linuxin keskitetty hallinta
+##Linuxin keskitetty hallinta
+
+####Juha-Matti Ohvo
+
+###Alkuasetelma
 
 Vagrantilla on luotu virtuaalikone, Ubuntu 14.04.5 LTS. Luomme moduulin, joka asentaa Apachen ja konfiguroi valmiiksi virtuaalihostit, käyttäjien kotihakemistot ja hosts-tiedoston nimet.
 
@@ -13,12 +17,18 @@ Tarkistetaan, että asennus onnistui ja mikä versio asennettiin.
 
 Puppet versiomme on 3.8.5
 
+
+###Moduulin luominen
+
 Luodaan /etc/puppet/modules/ hakemistoon uusi hakemisto, johon moduulimme luodaan. Luomme apache-nimisen moduulin. Luomamme hakemiston alle luodaan vielä hakemistot "manifests" ja "templates".
 
 	cd /etc/puppet/modules/
 	sudo mkdir -p apache/manifests apache/templates
 
 Mooduli löytyy liitteenä.
+
+
+###Moduulin testaaminen
 
 Ajettaessa moodulia ensimmäisen kerran tuli virheilmoitus:
 
@@ -41,6 +51,9 @@ Tulostuksena saamme nyt puppet.local, joka on koneen FQDN.
 Kokeillaan moduulin ajamista uudelleen.
 
 	sudo puppet apply --modulepath /etc/puppetmodules/ -e "class {"apache":}"
+
+
+###Käyttäjäkohtaisten kotisivujen testaaminen
 
 Moduulia ajettaessa emme saa virheilmoituksia, joten testataan, että uusi käyttäjä voi tehdä kotisivuja. Luodaan uusi käyttäjä pluto.
 
