@@ -70,3 +70,14 @@ Vagrantilla luodumme koneen ip:osoite on 192.168.0.20, joten tarkistetaan verkko
 ![testikuva](./linux1_1.png)
 
 Kuten kuvasta näkee, niin onnistuimme tekemään moduulin onnistuneesti, joka asentaa meille Apache2-palvelimen, poistaa oletuksena olevan index-html -tiedoston /var/www/html -hakemistosta, ottaa käyttäjien kotihakemistot käyttöön ja luo public_html -hakemiston skel-hakemistoon.
+
+
+###Yhteenveto
+
+Tehtävä oli itselleni hyvää Puppet-kertaamista ja pahempia ongelmatilanteita ei itselleni koitunut. Tehtävän tekemiseen käytin aikaa arviolta kaksi tuntia.
+
+
+###Lähteet
+
+http://terokarvinen.com
+https://www.puppetcookbook.com/
