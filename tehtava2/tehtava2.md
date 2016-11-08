@@ -6,7 +6,7 @@
 
 Tehtävässä luomme yhteyden Puppet master- ja orjakoneen välillä ja ajamme moduuleja koneiden 
 välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyörii Ubuntu 14.04.1 
-Xenial 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
+Trusty 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
 
 
 ##1. Virtuaalikoneiden luonti
@@ -25,7 +25,7 @@ Vagrantfile näyttää tältä:
 		end
 
 		config.vm.define "slave" do |slave|
-			slave.vm.box = "ubuntu/trusty44"
+			slave.vm.box = "ubuntu/trusty64"
 			slave.vm.network "private_network", ip: "192.168.0.22"
 			slave.vm.provision "shell", path: "slave.sh"
 		end	
