@@ -6,7 +6,7 @@
 
 Tehtävässä luomme yhteyden Puppet master- ja orjakoneen välillä ja ajamme moduuleja koneiden 
 välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyörii Ubuntu 16.04.1 
-Xenial 64-bittiset käyttöjärjestelmät.
+Xenial 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
 
 
 ###Virtuaalikoneiden luonti
@@ -61,16 +61,11 @@ Asennamme molempiin koneisiin avahi-daemonin
 
 	sudo apt-get install -y avahi-daemon
 
-Tämän jälkeen asetetaan molemmille koneille .local nimet. Lisätään /etc/hosts -tiedstoon 
-loopback-osoitteen kohdalle haluttu nimi.
+Asetetaan koneille uusi hostname hostnamectl-komennolla.
 
-	#Master-kone
-	127.0.0.1	localhost	master
+	sudo hostnamectl set-hostname [hostnimi, eli master/slave]
 
-	#Slave-kone
-	127.0.0.1	localhost	slave
-
-Kun nimet ovat lisätty hosts-tiedostoon, käynnistetään avahi-daemon uudelleen.
+Kun nimet ovat muutettu molemmilla koneilla, käynnistetään avahi-daemon uudelleen.
 
 	sudo service avahi-daemon restart
 
@@ -80,6 +75,7 @@ Pingataan koneilla itseään ja myös toista konetta, jolla tiedämme, toimiiko 
 	ping slave.local
 
 Pingaaminen toimi molemmin päin, joten .local-nimien asettaminen tehtiin onnistuneesti.
+
 
 
 ###Puppetmasterin konfigurointi
@@ -102,6 +98,7 @@ Käynnistetään Puppetmaster-palvelu.
 	sudo service puppetmaster restart
 
 
+
 ###Slave-koneen konfigurointi
 
 Myös slave-koneella on Puppet valmiina asennettuna, joten aloitetaan lisäämällä master-koneen nimi 
@@ -116,6 +113,7 @@ Ajetaan Puppet käynnistymään aina käynnistyksen yhteydessä.
 Käynnistetään Puppet-palvelu uudelleen.
 
 	sudo service puppet restart
+
 
 
 ###Sertifikaatin allekirjoitus
@@ -148,6 +146,9 @@ slave-kone, koska muita koneita ei ympäristössä ole. Allekirjoitetaan sertifi
 
 Sertifikaatin allekirjoittamisessa ei ilmene virheilmoituksia, joten olemme onistuneesti liittäneet 
 slave-koneen Puppetmasterin haltuun.
+
+![certkuva](./linux2_2.png)
+
 
 
 ###Moduulin luominen
