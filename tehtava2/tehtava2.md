@@ -230,6 +230,19 @@ Ajetaan nyt moduulimme.
 
 Virheitä ei ilmene, joten moduuli ajettiin onnistuneesti. Mennään slave-koneelle ja tarkistetaan, että halutut muutokset ovat tulleet voimaan. Asetimme SSH-palvelun uudeksi porttinumeroksi 33300:n, joten katsotaan pyöriikö palvelu kyseisessä portissa.
 
+	sudo puppet agent --test
+
+	Info: Retrieving plugin
+	Info: Caching catalog for slave.dhcp.inet.fi
+	Info: Applying configuration version '1478606716'
+	Notice: /Stage[main]/Sshd/Exec[ufw_allow]/returns: executed successfully
+	Info: /Stage[main]/Sshd/Exec[ufw_allow]: Scheduling refresh of Service[ssh]
+	Notice: /Stage[main]/Sshd/Service[ssh]: Triggered 'refresh' from 1 events
+	Notice: Finished catalog run in 0.77 seconds
+
+
+Tarkistetaan pyöriikö sshd-palvelu portissa 33300.
+
 	sudo netstat -tunlp|grep 33300
 
 ![porttitestaus](./linux2_4.png)
