@@ -9,7 +9,7 @@ välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyö
 Xenial 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
 
 
-##Virtuaalikoneiden luonti
+##1. Virtuaalikoneiden luonti
 
 Teemme harjoituksen käyttäen Vagrant-virtuaalikoneita. Koneet on provisioitu siten, että 
 Puppet asennetaan molemmille koneille automaattisesti käynnistyksen yhteydessä.
@@ -55,7 +55,7 @@ Kun koneet ovat käynnistetty, otetaan niihin SSH-yhteydet.
 	vagrant ssh [koneen nimi, tässä tapauksessa master/slave]
 
 
-##Koneiden nimien muuttaminen
+##2. Koneiden nimien muuttaminen
 
 Asennamme molempiin koneisiin avahi-daemonin
 
@@ -78,7 +78,7 @@ Pingaaminen toimi molemmin päin, joten .local-nimien asettaminen tehtiin onnist
 
 
 
-##Puppetmasterin konfigurointi
+##3. Puppetmasterin konfigurointi
 
 Master-koneella olemme valmiiksi asentaneet Puppetmasterin provisioinnin yhteydessä, joten ensiksi 
 sammutetaan kyseinen palvelu.
@@ -99,7 +99,7 @@ Käynnistetään Puppetmaster-palvelu.
 
 
 
-##Slave-koneen konfigurointi
+##4. Puppet-slaven konfigurointi
 
 Myös slave-koneella on Puppet valmiina asennettuna, joten aloitetaan lisäämällä master-koneen nimi 
 /etc/puppet -tiedostoon.
@@ -116,7 +116,7 @@ Käynnistetään Puppet-palvelu uudelleen.
 
 
 
-##Sertifikaatin allekirjoitus
+##5. Sertifikaatin allekirjoitus
 
 Master-koneella tehdään sertifikaatin allekijoitus, jolloin slave-kone saadaan master-koneen 
 ohjattavksi.
@@ -151,7 +151,7 @@ slave-koneen Puppetmasterin haltuun.
 
 
 
-##Moduulin luominen
+##6. Moduulin luominen
 
 Luomme moduulin, joka asentaa SSH-palvelun ja asettaa uuden porttinumeron palvelulle. Luodaan 
 ensiksi tarvittavat hakemistot /etc/puppet -hakemistoon.
@@ -251,7 +251,7 @@ Kuten kuvasta näkyykin, moduulin täytyi asentaa openssh-server, muuttaa palvel
 
 
 
-##Ongelmatilaneet
+##7. Ongelmatilaneet
 
 Asensin Puppet-moduulin palomuurin asetuksia varten, mutta kun käytin resurssia "firewall", sain seuraavanlaisen virheilmoituksen.
 
