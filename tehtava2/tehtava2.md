@@ -1,15 +1,15 @@
-##Linuxin keskitetty hallinta
+#Linuxin keskitetty hallinta
 
 ####Juha-Matti Ohvo
 
-###Tehtävänanto
+##Tehtävänanto
 
 Tehtävässä luomme yhteyden Puppet master- ja orjakoneen välillä ja ajamme moduuleja koneiden 
 välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyörii Ubuntu 16.04.1 
 Xenial 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
 
 
-###Virtuaalikoneiden luonti
+##Virtuaalikoneiden luonti
 
 Teemme harjoituksen käyttäen Vagrant-virtuaalikoneita. Koneet on provisioitu siten, että 
 Puppet asennetaan molemmille koneille automaattisesti käynnistyksen yhteydessä.
@@ -55,7 +55,7 @@ Kun koneet ovat käynnistetty, otetaan niihin SSH-yhteydet.
 	vagrant ssh [koneen nimi, tässä tapauksessa master/slave]
 
 
-###Koneiden nimien muuttaminen
+##Koneiden nimien muuttaminen
 
 Asennamme molempiin koneisiin avahi-daemonin
 
@@ -78,7 +78,7 @@ Pingaaminen toimi molemmin päin, joten .local-nimien asettaminen tehtiin onnist
 
 
 
-###Puppetmasterin konfigurointi
+##Puppetmasterin konfigurointi
 
 Master-koneella olemme valmiiksi asentaneet Puppetmasterin provisioinnin yhteydessä, joten ensiksi 
 sammutetaan kyseinen palvelu.
@@ -99,7 +99,7 @@ Käynnistetään Puppetmaster-palvelu.
 
 
 
-###Slave-koneen konfigurointi
+##Slave-koneen konfigurointi
 
 Myös slave-koneella on Puppet valmiina asennettuna, joten aloitetaan lisäämällä master-koneen nimi 
 /etc/puppet -tiedostoon.
@@ -116,7 +116,7 @@ Käynnistetään Puppet-palvelu uudelleen.
 
 
 
-###Sertifikaatin allekirjoitus
+##Sertifikaatin allekirjoitus
 
 Master-koneella tehdään sertifikaatin allekijoitus, jolloin slave-kone saadaan master-koneen 
 ohjattavksi.
@@ -151,11 +151,121 @@ slave-koneen Puppetmasterin haltuun.
 
 
 
-###Moduulin luominen
+##Moduulin luominen
 
 Luomme moduulin, joka asentaa SSH-palvelun ja asettaa uuden porttinumeron palvelulle. Luodaan 
 ensiksi tarvittavat hakemistot /etc/puppet -hakemistoon.
 
 	cd /etc/puppet
-	sudo mkdir -p manifests/ modules/testi/manifests
+	sudo mkdir -p manifests/ modules/sshd/manifests
 
+Luodaan manifests-hakemistoon site.pp -manifesti.
+
+	sudoedit manifests/site.pp
+
+Lisätään manifestiin seuraava tekstirivi.
+
+	include sshd
+
+Seuraavaksi luodaan varsinainen moduuli, joka tulee modules/sshd/manifests -hakemistoon. Manifestin 
+nimeksi tulee init.pp ja koska moduulimme käyttää templatea, niin luodaan niille erillinen 
+hakemisto.
+
+	sudo mkdir -p modules/sshd/templates
+	sudoedit modules/sshd/manifests/init.pp
+
+Manifesti init.pp näyttää tältä.
+
+	#
+# Author: Juha-Matti Ohvo
+# Github: @juhmtti
+#
+
+	class sshd {
+
+		# An array of required packages
+		$packages = ["openssh-server", "ufw"]
+
+		# Install packages
+		package { $packages:
+			ensure => "installed",
+		}
+	
+
+		# SSH service, start on boot and ensure it's running
+		service { "ssh":
+			ensure => "running",
+			enable => true,
+		}
+
+		# Template file
+		file { "/etc/ssh/sshd_config":
+			content => template("sshd/sshd_config"),
+			require => Package["openssh-server"],
+			notify  => Service["ssh"],
+		}
+
+	
+		# Ufw setup
+		exec { "ufw_allow":
+			path    => "usr/sbin",
+			command => "/usr/sbin/ufw enable && /usr/sbin/ufw allow 33300/tcp && /usr/sbin/ufw reload",
+			require => Package["ufw"],
+			notify	=> Service["ssh"],
+		}
+	}
+
+
+Kopioidaan sshd-config -tiedosto templates-hakemistoon.
+
+	sudo cp /etc/ssh/sshd_config modules/sshd/templates/
+
+Muokataan tiedostoa ja muutetaan parametri "Port 22" vaikkapa "Port 33300", jolloin uusi 
+porttinumeromme on 33300.
+
+	sudoedit modules/sshd/templates/sshd_config
+
+	Port 33300
+
+Ajetaan nyt moduulimme.
+
+	sudo puppet apply --modulepath /etc/puppet/modules/ -e "class {"sshd":}"
+
+	Notice: Compiled catalog for master.dhcp.inet.fi in environment production in 0.16 seconds
+	Notice: /Stage[main]/Sshd/Exec[ufw_allow]/returns: executed successfully
+	Notice: /Stage[main]/Sshd/Service[ssh]: Triggered 'refresh' from 1 events
+	Notice: Finished catalog run in 0.42 seconds
+
+Virheitä ei ilmene, joten moduuli ajettiin onnistuneesti. Mennään slave-koneelle ja tarkistetaan, että halutut muutokset ovat tulleet voimaan. Asetimme SSH-palvelun uudeksi porttinumeroksi 33300:n, joten katsotaan pyöriikö palvelu kyseisessä portissa.
+
+	netstat -tunlp|grep 33300
+
+![porttitestaus](./linux2_)
+
+Kuten kuvasta näkyykin, moduulin täytyi asentaa openssh-server, muuttaa palvelun porttinumero 33300:ksi templatella ja lisätä uusi sääntö ufw-palomuuriin. Täten tehtävä on onnistunut.
+
+
+
+##Ongelmatilaneet
+
+Yritin asentaa Puppet-moduulin palomuurin asetuksia varten, mutta kun käytin joko resurssia 
+"firewall" tai "ufw", sain seuraavanlaisen virheilmoituksen.
+
+![virhetilmoitukset](./linux3_2.png)
+
+Käytin sen sijaan exec-resurssia, joka toimii, mutta tuskin on hyvän tavan mukaista.
+
+
+
+##Yhteenveto
+
+Tehtävässä en kohdannut muita ongelmia paitsi palomuuriresurssien käytössä, joiden 
+toimimattomuudelle en googlettamallakaan löytänyt järkeviä syitä. Tehtävän tekemiseen kului aikaa 
+arviolta kaksi tuntia.
+
+
+
+##Lähteet
+
+http://terokarvinen.com
+http://puppetcookbook.com
