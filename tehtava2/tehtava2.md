@@ -5,7 +5,7 @@
 ##Tehtävänanto
 
 Tehtävässä luomme yhteyden Puppet master- ja orjakoneen välillä ja ajamme moduuleja koneiden 
-välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyörii Ubuntu 16.04.1 
+välillä. Teemme kaksi virtuaalikonetta Vagrantilla ja molemmissa koneissa pyörii Ubuntu 14.04.1 
 Xenial 64-bittiset käyttöjärjestelmät. Koneille on varattu 512 mb keskusmuistia.
 
 
@@ -258,5 +258,5 @@ arviolta kaksi tuntia.
 
 ##Lähteet
 
-http://terokarvinen.com
-http://puppetcookbook.com
+* http://terokarvinen.com
+* https://puppetcookbook.com
