@@ -37,7 +37,7 @@ Master-koneen provisiointi:
 	sudo apt-get update
 	sudo apt-get install puppetmaster -y
 
-SLave-koneen provisiointi:
+Slave-koneen provisiointi:
 
 	#!/bin/bash
 
@@ -175,11 +175,6 @@ hakemisto.
 	sudoedit modules/sshd/manifests/init.pp
 
 Manifesti init.pp näyttää tältä.
-
-	#
-# Author: Juha-Matti Ohvo
-# Github: @juhmtti
-#
 
 	class sshd {
 
