@@ -186,7 +186,6 @@ Manifesti init.pp näyttää tältä.
 			ensure => "installed",
 		}
 	
-
 		# SSH service, start on boot and ensure it's running
 		service { "ssh":
 			ensure => "running",
@@ -199,7 +198,6 @@ Manifesti init.pp näyttää tältä.
 			require => Package["openssh-server"],
 			notify  => Service["ssh"],
 		}
-
 	
 		# Ufw setup
 		exec { "ufw_allow":
@@ -215,8 +213,7 @@ Kopioidaan sshd-config -tiedosto templates-hakemistoon.
 
 	sudo cp /etc/ssh/sshd_config modules/sshd/templates/
 
-Muokataan tiedostoa ja muutetaan parametri "Port 22" vaikkapa "Port 33300", jolloin uusi 
-porttinumeromme on 33300.
+Muokataan tiedostoa ja muutetaan parametri "Port 22" vaikkapa "Port 33300", jolloin uusi porttinumeromme on 33300.
 
 	sudoedit modules/sshd/templates/sshd_config
 
@@ -233,9 +230,9 @@ Ajetaan nyt moduulimme.
 
 Virheitä ei ilmene, joten moduuli ajettiin onnistuneesti. Mennään slave-koneelle ja tarkistetaan, että halutut muutokset ovat tulleet voimaan. Asetimme SSH-palvelun uudeksi porttinumeroksi 33300:n, joten katsotaan pyöriikö palvelu kyseisessä portissa.
 
-	netstat -tunlp|grep 33300
+	sudo netstat -tunlp|grep 33300
 
-![porttitestaus](./linux2_)
+![porttitestaus](./linux2_4.png)
 
 Kuten kuvasta näkyykin, moduulin täytyi asentaa openssh-server, muuttaa palvelun porttinumero 33300:ksi templatella ja lisätä uusi sääntö ufw-palomuuriin. Täten tehtävä on onnistunut.
 
@@ -243,12 +240,11 @@ Kuten kuvasta näkyykin, moduulin täytyi asentaa openssh-server, muuttaa palvel
 
 ##Ongelmatilaneet
 
-Yritin asentaa Puppet-moduulin palomuurin asetuksia varten, mutta kun käytin joko resurssia 
-"firewall" tai "ufw", sain seuraavanlaisen virheilmoituksen.
+Asensin Puppet-moduulin palomuurin asetuksia varten, mutta kun käytin resurssia "firewall", sain seuraavanlaisen virheilmoituksen.
 
-![virhetilmoitukset](./linux3_2.png)
+![virhetilmoitukset](./linux2_3.png)
 
-Käytin sen sijaan exec-resurssia, joka toimii, mutta tuskin on hyvän tavan mukaista.
+Käytin sen sijaan exec-resurssia, joka toimi onnistuneesti, mutta tuskin on hyvän tavan mukaista.
 
 
 
