@@ -41,9 +41,9 @@ Kun virtuaalikoneet ollaan määritelty Vagrantfileen, käynnistetään molemmat
 
 Molemmat koneet käynnistyvät onnistuneeti.
 
-	![master-login](master_login.png)
+![master-login](master_login.png)
 
-	![windows7-login](vagrant_win_login.png)
+![windows7-login](vagrant_win_login.png)
 
 Otetaan SSH-yhteys master-koneelle
 
