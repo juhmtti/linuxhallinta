@@ -13,39 +13,41 @@ Tehtävää varten otamme käyttöön kaksi tietokonetta. Toinen on Windows 7 Pr
 
 Asennamme Windows 7 -käyttöjärjestelmän virtuaalikoneelle, joka on luotu Vagrantilla ja käyttää Virtualboxia. Lataamme valmiin levykuvan. Muotoillaan virtuaalikone seuraavasti Vagrantfileen.
 
-  config.vm.define "win7" do |win7|
-    win7.vm.box = "designerror/windows-7"
-    win7.vm.network "private_network", ip: "192.168.0.100"
-  end
+	config.vm.define "win7" do |win7|
+		win7.vm.box = "designerror/windows-7"
+		win7.vm.network "private_network", ip: "192.168.0.100"
+	end
 
 Puppetmaster ollaan määrtelty seuraavanlaisesti Vagrantfileen.
 
-  config.vm.define "master" do |master|
-    master.vm.box = "ubuntu/trusty64"
-    master.vm.network "private_network", ip: "192.168.0.11"
-  end
+	config.vm.define "master" do |master|
+		master.vm.box = "ubuntu/trusty64"
+		master.vm.network "private_network", ip: "192.168.0.11"
+	end
 
 Täytyy myös ottaa huomioon, ettei Vagrant tue oletuksena graafista käyttöliittymää, joka on välttämätöntä Windowsia varten. Graafinen käyttöliityma (GUI) voidaan ottaa käyttöön muokkaamalla Vagrantfilea. Lisäksi koneille on allokoitu 512 megatavua keskusmuistia.
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.gui = true
-    vb.memory = "512"
-  end
+	config.vm.provider "virtualbox" do |vb|
+		vb.gui = true
+		vb.memory = "512"
+	end
 
 
 ##3. Koneiden käyttöönotto
 
 Kun virtuaalikoneet ollaan määritelty Vagrantfileen, käynnistetään molemmat tietokoneet.
 
-  $ vagrant up master win7
+	$ vagrant up master win7
 
 Molemmat koneet käynnistyvät onnistuneeti.
 
-  win7 login kuva
+	![master-login](master_login.png)
+
+	![windows7-login](vagrant_win_login.png)
 
 Otetaan SSH-yhteys master-koneelle
 
-  $ vagrant ssh master
+	$ vagrant ssh master
 
 Pingaaminen ei toimi heti alkuun, sillä Windowsin palomuuri on asetettu estämään ICMP-sanomat. Sallitaan pingaaminen, jotta voimme varmistaa koneiden välisen kommunikoinnin toimivuuden.
 
