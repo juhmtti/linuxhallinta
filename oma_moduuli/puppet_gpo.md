@@ -7,7 +7,7 @@
 
 ##1. Moduulin esittely
 
-Moduuli on Linuxin keskitetty hallinta -kurssia varten luotu Puppet-moduuli. 
+Moduuli on Linuxin keskitetty hallinta -kurssia varten luotu Puppet-moduuli. Tavoitteemme on asentaa Windowsille paketteja ja muokata ryhmäkäytäntöjä Puppetilla.
 
 
 ##2. Työympäristö
@@ -34,7 +34,7 @@ Mietin ongelmatilanteiden jälkeen, miksi Windows-koneesta ei voisi tehdä agent
 
 Tämän vaiheen alkaessa meillä on Linux-palvelin, jossa pyörii Ubuntu 16.04.1 LTS 64-bittinen käyttöjärjestelmä. Päivitetään pakettilistat ja asennetaan Puppetmaster. Tietokoneen hostname on "puppetmaster".
 
-	$ sudo apt-get update && sudo apt-get install Puppetmaster -y
+	$ sudo apt-get update && sudo apt-get install puppetmaster -y
 
 Kun Puppetmaster on asennettu, pysäytetään Puppetmaster-palvelu poistetaan sertifikaatit.
 
@@ -77,7 +77,7 @@ Meillä on näkyvillä "puppetagent"-niminen agent, joka on juurikin Windows-kon
 
 Allekirjoitetaan sertifikaatti.
 
-	$ sudo pupper cert --sign --all
+	$ sudo puppet cert --sign --all
 
 Sertifikaatti allekirjoitettiin onnistuneesti.
 
@@ -177,7 +177,7 @@ Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen P
 
 ##6 Windowsin ryhmäkäytäntöjen muokkaaminen Puppetilla
 
-Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli "".
+Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli "local_group_policy".
 
 	$ sudo puppet module install cannonps-local_group_policy
 
