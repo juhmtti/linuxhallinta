@@ -21,9 +21,11 @@ Puppetilla on mahdollista tehdä Windows-tietokoneista Puppet agentteja, mutta P
 
 Kyseinen ohje toimi, mutta itse Puppetmasterin asennus ei onnistunut ollenkaan. Asennuslokissa virheviestit valittivat puuttuvista tiedostoista /opt -hakemistossa, mutta jos asennus ajetaan ensimmäistä kertaa, miksi ohjeissa ei mainita lainkaan että /opt -hakemistossa täytyisi olla valmiina asennukseen tarvittavia tiedostoja. Neljän tunnin selvittämisen jälkeen luovutin tämän asennuksen suhteen.
 
+![alkuasetelma](puppet_failed.jpg)
+
 Mietin ongelmatilanteiden jälkeen, miksi Windows-koneesta ei voisi tehdä agenttia samaan tapaan kuin Linuxilla, eli asennetaan Puppet client-ohjelmisto agentille, lisätään master-palvelin asetuksiin ja allekirjoitetaan sertifikaatit Puppetmasterilla. Googlella löysinkin Puppetin [virallisen ohjeen tätä varten](https://docs.puppet.com/puppet/latest/install_windows.html).
 
-![alkuasetelma](alkuasetelma.png)
+![alkuasetelma](alkuasetelma.jpg)
 
 ##4 Koniden valmistelu
 
@@ -45,5 +47,6 @@ Lisätään masterin dns-nimet Puppetin asennustiedostoon. Hostname on "puppetma
 ####4.2 Windows Puppet agentin valmistelu
 
 Tämä vaihe edellyttää, että Windows on asennettuna koneelle, UAC on poistettu käytöstä sekä palomuurista on avattu TCP-portti 8140 Puppettia varten. Ladataan ensiksi Puppet agentin .msi-asennuspakettin Windows-koneelle. Asennuspaketit Windowsille löytyvät [Puppetin sivuilta](https://downloads.puppetlabs.com/windows/).
+
 
 
