@@ -53,11 +53,9 @@ Käynnistetään lopuksi Puppetmaster.
 
 Tämä vaihe edellyttää, että Windows on asennettuna koneelle, UAC on poistettu käytöstä sekä palomuurista on avattu TCP-portti 8140 Puppettia varten. Windows-koneen hostname on "puppetagent" ja lisäksi Puppetmasterin hostname ja ip-osoite täytyy määritellä hosts-tiedostoon. Ladataan ensiksi Puppet agentin .msi-asennuspakettin Windows-koneelle. Asennuspaketit Windowsille löytyvät [Puppetin sivuilta](https://downloads.puppetlabs.com/windows/).
 
-	asennuskuva
+	![asennuskuva](asennuskuva.jpg)
 
-Edetään asennuksessa eteenpäin.
-
-	asennus valmis
+Edetään asennuksessa eteenpäin kunnes asennus on valmis.
 
 Nyt meillä on Windows koneelle asennettuna Puppet agent client. Seuraavaksi meidän pitää määritellä, miltä palvelimelta Puppet-asetukset tulevat. Etsitään Windows-koneen C:-levyltä tiedostoa puppet.conf. Lisätään
 
@@ -118,7 +116,7 @@ Ajetaan tämän jälkeen komento, joka enabloi Puppet agentin.
 
 Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta. Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
 
-	![onnistui](onnistui.jpg)
+	![onnistui](onnstui.jpg)
 
 
 ##5. Windows-ohjelmien asennus Puppetilla ja Chocolateylla
