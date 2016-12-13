@@ -97,7 +97,7 @@ Lisätään seuraava koodi tiedostoon:
 
 	class firefox {
 		file { "c:/testi.txt":
-			content => "Toimiikohan tämäkin tiedosto?",
+			content => "Kaikki tämä tuska oli lopulta tämän arvoista!",
 		}
 	}
 
