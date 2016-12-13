@@ -1,5 +1,7 @@
 #Linuxin keskitetty hallinta
 
+#TÄMÄ MODUULI ON VANHA JA EI TOIMINUT! UUSI MODUULI LÖYTYY [TÄÄLTÄ](https://github.com/juhmtti/linuxhallinta/blob/master/oma_moduuli/puppet_gpo.md)
+
 ####Juha-Matti Ohvo
 
 ##1. Moduuli
