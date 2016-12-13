@@ -181,7 +181,19 @@ Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen P
 
 ##6 Windowsin ryhmäkäytäntöjen muokkaaminen Puppetilla
 
-Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli.
+Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli "".
+
+	$ sudo puppet module install cannonps-local_group_policy
+
+Luodaan uusi hakemisto moduulille.
+
+	$ cd /etc/puppet/modules
+	$ sudo mkdir -p policy/manifests
+	$ sudoedit policy/manifests/init.pp
+
+Lisätään init.pp -tiedostoon seuraava koodi.
+
+	
 
 Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
 
@@ -203,6 +215,9 @@ Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta
 
 	- Moduulilla ei ole ollut ylläpitäjää kahteen vuoteen"
 
+Tällöin Forgesta löytynyt moduuli on käyttökelvoton ja siksi en saanut salasanamäärittelyjä muutettua.
+
+
 ##Pohdinnat
 
 Tehtävän jälkeen tulin johtopäätökseen, että mikäli Windows-tietokoneille tehdään pieniä asetuksia, niiden hallinnoiminen Puppetilla on mielestäni turhan työlästä ja täten Windowsin Powershell tarjoaa valmiita ratkaisuja Windowsin hallintaan. Lisäksi Forgesta löytynyt paikallisten ryhmäkäytäntäjen hallintaan tarkoitettu moduuli on ikivanha vailla ylläpitoa.
@@ -220,4 +235,5 @@ Tehtävään minulla meni lopputuloksen huomioiden hyvin paljon aikaa. Kokonaisu
 * https://forge.puppet.com/chocolatey/chocolatey
 * https://blogs.msdn.microsoft.com/powershell/2013/11/01/configuration-in-a-devops-world-windows-powershell-desired-state-configuration/
 * https://en.wikipedia.org/wiki/Group_Policy#Local_Group_Policy
+* https://forge.puppet.com/cannonps/local_group_policy
 
