@@ -147,6 +147,52 @@ Nyt voimme käyttää Chocolatey-moduulia. Muokataan aiemmin tehtyä firefox-mod
 		}
 	}
 
+Ajetaan moduuli samalla tavalla kuin aiemmin, eli Windows-koneella käynnistetään Puppet agent -ohjelma käynnistysvalikosta.
+
+	kuva
+
+Moduuli on ajettu läpi ilman virheitä, mutta Firefoxia ei ole asennettu. Tässä vaiheessa arvelen syyn johtuvan siitä, että Haaga-Helian verkon takaata on vaikeaa asentaa paketteja Chocolateylla. Olen itse aiemmin yrittänyt asentaa paketteja koulun verkossa olevalla Windows-koneella, muttei se tahtonut onnistua, kun taas kotiverkossani Chocolatey toimi ongelmitta. Koulun verkossa olen onnistunut asentamaan Chocolateylla Gitin, joten kokeillaan tämän asentamista Firefoxin sijaan.
+
+Muokataan moduulia.
+
+	include chocolatey
+	
+	class firefox {
+		package { "git":
+			ensure		=> "installed",
+			provider	=> "chocolatey",
+		}
+
+		file { "c:/testi.txt":
+			content		=> "Toimiikohan tämäkin tiedosto?",
+		}
+	}
+
+Windows-koneella ajetaan Puppet agent.
+
+	kuva
+
+Nyt moduulin ajaminen kesti liki 80 sekuntia ja virheilmoituksia ei ilmennyt, joten asennuksen voi olettaa olleen onnistunut. Katsotaan, löytyykö Git käynnistysvalikosta.
+
+	kuva
+
+Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen Puppetia ja Chocolateyta.
+
+
+##6 Windowsin ryhmäkäytäntöjen muokkaaminen Puppetilla
+
+Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli.
+
+Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella ""
+
+Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden määrittämiseen on olemassa oma Puppet-moduulikin, cannonps/local_group_policy, josta PuppetLabs paikutti aikoinaan kovastikin henkseleitä. Moduulin sisältämässä providerissa on kuitenkin lukuisia ongelmia:
+
+* Se ei toimi lokalisoidussa, esim. suomenkielisessä Windowsissa, koska se tekee naiiveja oletuksia C:\Windows\PolicyDefinitions -hakemiston rakenteesta.
+* Registry.pol-tiedoston polku on virheellinen
+* Se vaikuttaa halvaantuvan, jos Registry.pol-tiedosto on tyhjä
+* Toteutustapa on todella monimutkainen: se lukee XML-tiedostopareista GPO-objektien määritteet (.admx) sekä käännökset (.adml) ja linkittää niiden sisältämän datan yhteen. Tavoitteena lienee ollut se, että resurssien määrittelyistä tulisi helpommin luettavan näköisiä, sillä mitään muuta selitystä tälle monimutkaisuudelle on vaikea löytää.
+* Moduulilla ei ole ollut ylläpitäjää kahteen vuoteen
+
 
 ##Pohdinnat
 
@@ -164,5 +210,5 @@ Tehtävään minulla meni lopputuloksen huomioiden hyvin paljon aikaa. Kokonaisu
 * https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/
 * https://forge.puppet.com/chocolatey/chocolatey
 * https://blogs.msdn.microsoft.com/powershell/2013/11/01/configuration-in-a-devops-world-windows-powershell-desired-state-configuration/
-*
+* https://en.wikipedia.org/wiki/Group_Policy#Local_Group_Policy
 
