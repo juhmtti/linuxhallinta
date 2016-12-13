@@ -74,7 +74,7 @@ Puppetmasterilla ajetaan komento, jolla nähdään, mitkä agentit ovat ottaneet
 
 Meillä on näkyvillä "puppetagent"-niminen agent, joka on juurikin Windows-koneemme.
 
-	![cert](cert.png)
+	![cert](cert.jpg)
 
 Allekirjoitetaan sertifikaatti.
 
@@ -82,7 +82,7 @@ Allekirjoitetaan sertifikaatti.
 
 Sertifikaatti allekirjoitettiin onnistuneesti.
 
-	![certwin](certwin.png)
+	![certwin](certwin.jpg)
 
 ####4.4 Puppetin testaus
 
@@ -118,7 +118,7 @@ Ajetaan tämän jälkeen komento, joka enabloi Puppet agentin.
 
 Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta. Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
 
-	![onnistui](onnistui.png)
+	![onnistui](onnistui.jpg)
 
 
 ##5. Windows-ohjelmien asennus Puppetilla ja Chocolateylla
@@ -167,11 +167,11 @@ Muokataan moduulia.
 
 Windows-koneella ajetaan Puppet agent.
 
-	![gitpuppet](gitpuppet.png)
+	![gitpuppet](gitpuppet.jpg)
 
 Nyt moduulin ajaminen kesti liki 80 sekuntia ja virheilmoituksia ei ilmennyt, joten asennuksen voi olettaa olleen onnistunut. Katsotaan, löytyykö Git käynnistysvalikosta.
 
-	![gitwin](gitwin.png)
+	![gitwin](gitwin.jpg)
 
 Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen Puppetia ja Chocolateyta.
 
@@ -190,7 +190,7 @@ Luodaan uusi hakemisto moduulille.
 
 Haluamme asettaa ryhmäkäytännön, joka vaatii vähintään 12 merkkisen salasanan.
 
-	![gpo](gpo.png)
+	![gpo](gpo.jpg)
 
 Lisätään init.pp -tiedostoon seuraava koodi.
 
