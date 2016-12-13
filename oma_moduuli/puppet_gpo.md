@@ -53,13 +53,14 @@ Käynnistetään lopuksi Puppetmaster.
 
 Tämä vaihe edellyttää, että Windows on asennettuna koneelle, UAC on poistettu käytöstä sekä palomuurista on avattu TCP-portti 8140 Puppettia varten. Windows-koneen hostname on "puppetagent" ja lisäksi Puppetmasterin hostname ja ip-osoite täytyy määritellä hosts-tiedostoon. Ladataan ensiksi Puppet agentin .msi-asennuspakettin Windows-koneelle. Asennuspaketit Windowsille löytyvät [Puppetin sivuilta](https://downloads.puppetlabs.com/windows/).
 
-	![asennuskuva](asennuskuva.jpg)
+![asennuskuva](asennuskuva.jpg)
 
 Edetään asennuksessa eteenpäin kunnes asennus on valmis.
 
-Nyt meillä on Windows koneelle asennettuna Puppet agent client. Seuraavaksi meidän pitää määritellä, miltä palvelimelta Puppet-asetukset tulevat. Etsitään Windows-koneen C:-levyltä tiedostoa puppet.conf. Lisätään
+Nyt meillä on Windows koneelle asennettuna Puppet agent client. Seuraavaksi meidän pitää määritellä, miltä palvelimelta Puppet-asetukset tulevat. Etsitään Windows-koneen C:-levyltä tiedostoa puppet.conf. Lisätään puppet.conf -tiedostoon seuraavat rivit.
 
-	asetustiedosto
+	[agent]
+	server = puppetmaster
 
 Seuraavaksi tehdään sertifikaattien allekirjoitus.
 
@@ -72,7 +73,7 @@ Puppetmasterilla ajetaan komento, jolla nähdään, mitkä agentit ovat ottaneet
 
 Meillä on näkyvillä "puppetagent"-niminen agent, joka on juurikin Windows-koneemme.
 
-	![cert](cert.jpg)
+![cert](cert.jpg)
 
 Allekirjoitetaan sertifikaatti.
 
@@ -80,7 +81,7 @@ Allekirjoitetaan sertifikaatti.
 
 Sertifikaatti allekirjoitettiin onnistuneesti.
 
-	![certwin](certwin.jpg)
+![certwin](certwin.jpg)
 
 ####4.4 Puppetin testaus
 
@@ -116,7 +117,7 @@ Ajetaan tämän jälkeen komento, joka enabloi Puppet agentin.
 
 Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta. Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
 
-	![onnistui](onnstui.jpg)
+![onnistui](onnstui.jpg)
 
 
 ##5. Windows-ohjelmien asennus Puppetilla ja Chocolateylla
@@ -165,11 +166,11 @@ Muokataan moduulia.
 
 Windows-koneella ajetaan Puppet agent.
 
-	![gitpuppet](gitpuppet.jpg)
+![gitpuppet](gitpuppet.jpg)
 
 Nyt moduulin ajaminen kesti liki 80 sekuntia ja virheilmoituksia ei ilmennyt, joten asennuksen voi olettaa olleen onnistunut. Katsotaan, löytyykö Git käynnistysvalikosta.
 
-	![gitwin](gitwin.jpg)
+![gitwin](gitwin.jpg)
 
 Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen Puppetia ja Chocolateyta.
 
@@ -188,7 +189,7 @@ Luodaan uusi hakemisto moduulille.
 
 Haluamme asettaa ryhmäkäytännön, joka vaatii vähintään 12 merkkisen salasanan.
 
-	![gpo](gpo.jpg)
+![gpo](gpo.jpg)
 
 Lisätään init.pp -tiedostoon seuraava koodi.
 
