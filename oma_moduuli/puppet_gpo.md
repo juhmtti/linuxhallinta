@@ -14,6 +14,8 @@ Moduuli on Linuxin keskitetty hallinta -kurssia varten luotu Puppet-moduuli.
 
 Työssä on käytetty kahta fyysistä tietokonetta, joista toinen toimii Puppetmaster-palvelimena (Ubuntu 16.04.1 LTS 64-bit) ja toiselle on asennettu Windows 8.1 64-bittinen käyttöjärjestelmä ja joka toimii Puppet agenttina. Puppetmasterpalvelimena toimii Haaga-Helian laboratorioluokan 5005 tietokone ja agenttikoneena HP Elitebook 2560p.
 
+![alkuasetelma](alkuasetelma.jpg)
+
 
 ##3. Alkuvalmistelut
 
@@ -25,9 +27,8 @@ Kyseinen ohje toimi, mutta itse Puppetmasterin asennus ei onnistunut ollenkaan. 
 
 Mietin ongelmatilanteiden jälkeen, miksi Windows-koneesta ei voisi tehdä agenttia samaan tapaan kuin Linuxilla, eli asennetaan Puppet client-ohjelmisto agentille, lisätään master-palvelin asetuksiin ja allekirjoitetaan sertifikaatit Puppetmasterilla. Googlella löysinkin Puppetin [virallisen ohjeen tätä varten](https://docs.puppet.com/puppet/latest/install_windows.html).
 
-![alkuasetelma](alkuasetelma.jpg)
 
-##4 Koniden valmistelu
+##4 Koneiden valmistelu
 
 ####4.1 Puppetmasterin valmistelu
 
@@ -43,10 +44,87 @@ Lisätään masterin dns-nimet Puppetin asennustiedostoon. Hostname on "puppetma
 
 	$ echo "dns_alt_names = puppetmaster" | sudo tee -a /etc/puppet/puppet.conf
 
+Käynnistetään lopuksi Puppetmaster.
+
+	$ sudo service puppetmaster start
+
 
 ####4.2 Windows Puppet agentin valmistelu
 
-Tämä vaihe edellyttää, että Windows on asennettuna koneelle, UAC on poistettu käytöstä sekä palomuurista on avattu TCP-portti 8140 Puppettia varten. Ladataan ensiksi Puppet agentin .msi-asennuspakettin Windows-koneelle. Asennuspaketit Windowsille löytyvät [Puppetin sivuilta](https://downloads.puppetlabs.com/windows/).
+Tämä vaihe edellyttää, että Windows on asennettuna koneelle, UAC on poistettu käytöstä sekä palomuurista on avattu TCP-portti 8140 Puppettia varten. Windows-koneen hostname on "puppetagent" ja lisäksi Puppetmasterin hostname ja ip-osoite täytyy määritellä hosts-tiedostoon. Ladataan ensiksi Puppet agentin .msi-asennuspakettin Windows-koneelle. Asennuspaketit Windowsille löytyvät [Puppetin sivuilta](https://downloads.puppetlabs.com/windows/).
+
+	asennuskuva
+
+Edetään asennuksessa eteenpäin.
+
+	asennus valmis
+
+Nyt meillä on Windows koneelle asennettuna Puppet agent client. Seuraavaksi meidän pitää määritellä, miltä palvelimelta Puppet-asetukset tulevat. Etsitään Windows-koneen C:-levyltä tiedostoa puppet.conf. Lisätään
+
+	asetustiedosto
+
+Seuraavaksi tehdään sertifikaattien allekirjoitus.
 
 
+####4.3 Setifikaatin allekirjoittaminen Puppetmasterilla
+
+Puppetmasterilla ajetaan komento, jolla nähdään, mitkä agentit ovat ottaneet Puppetmasteriin yhteyttä ja vaativat sertifikaatin allekirjoituksen.
+
+	$ sudo puppet cert --list
+
+Meillä on näkyvillä "puppetagent"-niminen agent, joka on juurikin Windows-koneemme.
+
+	kuva
+
+Allekirjoitetaan sertifikaatti.
+
+	$ sudo pupper cert --sign --all
+
+
+####4.4 Puppetin testaus
+
+Testataan, että voimme Puppetmasteriltamme luoda tiedoston Windows-koneelle, eli toisin sanoen varmistetaan Puppetin toimivuus. Luodaan tekstitiedosto Windows-koneen C:-levyn juureen.
+
+Ensiksi luodaan moduuli, jonka nimi olkoot "firefox", koska yritämme myöhemmin Firefox-selaimen asennusta Windows-koneelle.
+
+	$ cd /etc/puppet
+	$ sudo mkdir -p /modules/firefox/manifests
+	$ sudoedit /modules/firefox/manifests/init.pp
+
+Lisätään seuraava koodi tiedostoon:
+
+	class firefox {
+		file { "c:/testi.txt":
+			content => "Toimiikohan tämäkin tiedosto?",
+		}
+	}
+
+Lisätään vielä /etc/puppet/manifests -hakemistoon site.pp -manifesti, johon lisätään agentit, joille komentoja annetaan ja mitä moduuleja käytetään.
+
+	$ sudoedit /etc/puppet/manifests/site.pp
+
+Lisätään tiedostoon seuraava koodi:
+
+	node "puppetagent.tielab.haaga-helia.fi" {
+		include firefox
+	}
+
+Ajetaan tämän jälkeen komento, joka enabloi Puppet agentin.
+
+	$ sudo puppet agent --enable
+
+Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta.
+
+	kuva
+
+Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
+
+	kuva
+
+
+##5. Windows-ohjelmien asennus Puppetilla ja Chocolateylla
+
+Toisin kuin Linux-käyttöjärjestelmissä, Windows-järjestelmissä ei ole asennettuna omaa virallista paketinhallintaohjelmistoa. Paketinhallinta on kuitenkin mahdollista käyttäen Chocolateyta, jota kutsutaan Windowsin "omaksi apt-getiksi" (lähde: https://chocolatey.org). Chocolateyta varten on pakettivarasto, jossa on tarjolla tuhansia ylläpidettyjä paketteja. Tämän enempää emme käy tehtävässä Chocolateyta ja virallisilla sivuilla on kattavasti tietoa kyseisestä ohjelmasta (https://chocolatey.org).
+
+####
 
