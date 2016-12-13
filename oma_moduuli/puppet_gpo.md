@@ -12,7 +12,7 @@ Moduuli on Linuxin keskitetty hallinta -kurssia varten luotu Puppet-moduuli.
 
 ##2. Työympäristö
 
-Työssä on käytetty kahta fyysistä tietokonetta, joista toinen toimii Puppetmaster-palvelimena (Ubuntu 16.04.1 LTS 64-bit) ja toiselle on asennettu Windows 8.1 64-bittinen käyttöjärjestelmä ja joka toimii Puppet agenttina. Puppetmasterpalvelimena toimii Haaga-Helian laboratorioluokan 5005 tietokone ja agenttikoneena HP Elitebook 2560p.
+Työssä on käytetty kahta fyysistä tietokonetta, joista toinen toimii Puppetmaster-palvelimena (Ubuntu 16.04.1 LTS 64-bit) ja toiselle on asennettu Windows 8.1 64-bittinen käyttöjärjestelmä ja joka toimii Puppet agenttina. Puppetmaster-palvelimena toimii Haaga-Helian laboratorioluokan 5005 tietokone ja agenttikoneena HP Elitebook 2560p.
 
 ![alkuasetelma](alkuasetelma.jpg)
 
@@ -74,12 +74,15 @@ Puppetmasterilla ajetaan komento, jolla nähdään, mitkä agentit ovat ottaneet
 
 Meillä on näkyvillä "puppetagent"-niminen agent, joka on juurikin Windows-koneemme.
 
-	kuva
+	![cert](cert.png)
 
 Allekirjoitetaan sertifikaatti.
 
 	$ sudo pupper cert --sign --all
 
+Sertifikaatti allekirjoitettiin onnistuneesti.
+
+	![certwin](certwin.png)
 
 ####4.4 Puppetin testaus
 
@@ -113,13 +116,9 @@ Ajetaan tämän jälkeen komento, joka enabloi Puppet agentin.
 
 	$ sudo puppet agent --enable
 
-Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta.
+Windows koneella avataan käynnistysvalikko (Start menu) ja etsitään "Run Puppet agent" -ohjelma. Käynnistetään ohjelma ja odotellaan, kunnes agentti on hakenut asetukset Puppetmasterilta. Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
 
-	kuva
-
-Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tiedosto löytyy oikeasta paikasta oikealla nimellä, joten Puppetmaster ja Windows-kone Puppet agenttina toimivat!
-
-	kuva
+	![onnistui](onnistui.png)
 
 
 ##5. Windows-ohjelmien asennus Puppetilla ja Chocolateylla
@@ -149,8 +148,6 @@ Nyt voimme käyttää Chocolatey-moduulia. Muokataan aiemmin tehtyä firefox-mod
 
 Ajetaan moduuli samalla tavalla kuin aiemmin, eli Windows-koneella käynnistetään Puppet agent -ohjelma käynnistysvalikosta.
 
-	kuva
-
 Moduuli on ajettu läpi ilman virheitä, mutta Firefoxia ei ole asennettu. Tässä vaiheessa arvelen syyn johtuvan siitä, että Haaga-Helian verkon takaata on vaikeaa asentaa paketteja Chocolateylla. Olen itse aiemmin yrittänyt asentaa paketteja koulun verkossa olevalla Windows-koneella, muttei se tahtonut onnistua, kun taas kotiverkossani Chocolatey toimi ongelmitta. Koulun verkossa olen onnistunut asentamaan Chocolateylla Gitin, joten kokeillaan tämän asentamista Firefoxin sijaan.
 
 Muokataan moduulia.
@@ -170,11 +167,11 @@ Muokataan moduulia.
 
 Windows-koneella ajetaan Puppet agent.
 
-	kuva
+	![gitpuppet](gitpuppet.png)
 
 Nyt moduulin ajaminen kesti liki 80 sekuntia ja virheilmoituksia ei ilmennyt, joten asennuksen voi olettaa olleen onnistunut. Katsotaan, löytyykö Git käynnistysvalikosta.
 
-	kuva
+	![gitwin](gitwin.png)
 
 Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen Puppetia ja Chocolateyta.
 
@@ -191,11 +188,22 @@ Luodaan uusi hakemisto moduulille.
 	$ sudo mkdir -p policy/manifests
 	$ sudoedit policy/manifests/init.pp
 
+Haluamme asettaa ryhmäkäytännön, joka vaatii vähintään 12 merkkisen salasanan.
+
+	![gpo](gpo.png)
+
 Lisätään init.pp -tiedostoon seuraava koodi.
 
-	
+	import local_group_policy
 
-Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
+	class policy {
+		policy_settings {
+			name		=> "Minimum Password Length",
+			policy_value	=> "12",
+		}
+	}
+
+Moduuli ei toimi ja antoi useita virheitä. Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
 
 	"Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden
 	määrittämiseen on olemassa oma Puppet-moduulikin, cannonps/local_group_policy, josta PuppetLabs paikutti 
