@@ -183,21 +183,25 @@ Kuten kuvasta näkyy, Git asentui Windows-koneellemme ja teimme sen käyttäen P
 
 Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työasemaa ei ole liitetty toimialueelle. Tarvitsemme lisäksi moduulin, jolla voimme muokata ryhmäkäytäntöjä ja googlettamalla Forgesta löytyi tätä varten moduuli.
 
-Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella ""
+Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
 
 	"Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden
 	määrittämiseen on olemassa oma Puppet-moduulikin, cannonps/local_group_policy, josta PuppetLabs paikutti 
 	aikoinaan kovastikin henkseleitä. Moduulin sisältämässä providerissa on kuitenkin lukuisia ongelmia:
 
-	* Se ei toimi lokalisoidussa, esim. suomenkielisessä Windowsissa, koska se tekee naiiveja oletuksia 
-	C:\Windows\PolicyDefinitions -hakemiston rakenteesta.
-	* Registry.pol-tiedoston polku on virheellinen
-	* Se vaikuttaa halvaantuvan, jos Registry.pol-tiedosto on tyhjä
-	* Toteutustapa on todella monimutkainen: se lukee XML-tiedostopareista GPO-objektien määritteet (.admx) 
-	sekä käännökset (.adml) ja linkittää niiden sisältämän datan yhteen. Tavoitteena lienee ollut se, että 
-	resurssien määrittelyistä tulisi helpommin luettavan näköisiä, sillä mitään muuta selitystä tälle 
-	monimutkaisuudelle on vaikea löytää.
-	* Moduulilla ei ole ollut ylläpitäjää kahteen vuoteen"
+	- Se ei toimi lokalisoidussa, esim. suomenkielisessä Windowsissa, koska se tekee naiiveja oletuksia 
+	  C:\Windows\PolicyDefinitions -hakemiston rakenteesta.
+	
+	- Registry.pol-tiedoston polku on virheellinen
+
+	- Se vaikuttaa halvaantuvan, jos Registry.pol-tiedosto on tyhjä
+
+	- Toteutustapa on todella monimutkainen: se lukee XML-tiedostopareista GPO-objektien määritteet (.admx) 
+	  sekä käännökset (.adml) ja linkittää niiden sisältämän datan yhteen. Tavoitteena lienee ollut se, että 
+	  resurssien määrittelyistä tulisi helpommin luettavan näköisiä, sillä mitään muuta selitystä tälle 
+	  monimutkaisuudelle on vaikea löytää.
+
+	- Moduulilla ei ole ollut ylläpitäjää kahteen vuoteen"
 
 ##Pohdinnat
 
