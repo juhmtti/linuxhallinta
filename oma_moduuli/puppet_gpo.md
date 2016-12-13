@@ -185,7 +185,8 @@ Windowsin ryhmäkäytäntöjä voidaan muokata vain paikallisesti, mikäli työa
 
 Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella ""
 
-	"Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden määrittämiseen on olemassa oma Puppet-moduulikin, cannonps/local_group_policy, josta  PuppetLabs paikutti aikoinaan kovastikin henkseleitä. Moduulin sisältämässä providerissa on kuitenkin lukuisia ongelmia:
+	"Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden määrittämiseen on olemassa oma Puppet-moduulikin,
+	cannonps/local_group_policy, josta PuppetLabs paikutti aikoinaan kovastikin henkseleitä. Moduulin sisältämässä providerissa on kuitenkin lukuisia ongelmia:
 
 	* Se ei toimi lokalisoidussa, esim. suomenkielisessä Windowsissa, koska se tekee naiiveja oletuksia C:\Windows\PolicyDefinitions -hakemiston rakenteesta.
 	* Registry.pol-tiedoston polku on virheellinen
