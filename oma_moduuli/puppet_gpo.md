@@ -126,5 +126,43 @@ Kun prosessi on valmis, tarkistetaan onko tiedostoa luotu C:-aseman juureen. Tie
 
 Toisin kuin Linux-käyttöjärjestelmissä, Windows-järjestelmissä ei ole asennettuna omaa virallista paketinhallintaohjelmistoa. Paketinhallinta on kuitenkin mahdollista käyttäen Chocolateyta, jota kutsutaan Windowsin "omaksi apt-getiksi" (lähde: https://chocolatey.org). Chocolateyta varten on pakettivarasto, jossa on tarjolla tuhansia ylläpidettyjä paketteja. Tämän enempää emme käy tehtävässä Chocolateyta ja virallisilla sivuilla on kattavasti tietoa kyseisestä ohjelmasta (https://chocolatey.org).
 
-####
+####5.1 Chocolateyn käyttäminen Puppet-moduuleissa
+
+Jotta Chocolateyta voidaan käyttää mooduleissa, vaatii se Chocolatey-moduulin asentamista Puppetforgesta. Tehdään tämä toimenpide.
+
+	$ puppet module install chocolatey-chocolatey
+
+Nyt voimme käyttää Chocolatey-moduulia. Muokataan aiemmin tehtyä firefox-moduulia ja käytetään package-resurssia.
+
+	include chocolatey
+	
+	class firefox {
+		package { "firefox":
+			ensure		=> "installed",
+			provider	=> "chocolatey",
+		}
+
+		file { "c:/testi.txt":
+			content		=> "Toimiikohan tämäkin tiedosto?",
+		}
+	}
+
+
+##Pohdinnat
+
+Tehtävän jälkeen tulin johtopäätökseen, että mikäli Windows-tietokoneille tehdään pieniä asetuksia, niiden hallinnoiminen Puppetilla on mielestäni turhan työlästä ja täten Windowsin Powershell tarjoaa valmiita ratkaisuja Windowsin hallintaan. Lisäksi Forgesta löytynyt paikallisten ryhmäkäytäntäjen hallintaan tarkoitettu moduuli on ikivanha vailla ylläpitoa.
+
+Sinänsä harmi, että Chocolatey toimii huonosti proxyn takaata, jolloin ohjelmien asennus tehtävän aikana muodostui hankalaksi. Onneksi sain sentään Gitin asennettua, jotta pystyin todistaa Chocolateyn ja Puppetin toimivuuden.
+
+Tehtävään minulla meni lopputuloksen huomioiden hyvin paljon aikaa. Kokonaisuudessa minulla kului tehtävän tekemiseen arviolta 15 tuntia ottaen huomioon vianselvittelyn ja koneiden asentelun.
+
+
+##Lähteet
+
+* https://docs.puppet.com/puppet/latest/install_windows.html
+* https://docs.puppet.com/pe/latest/windows_installing.html
+* https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/
+* https://forge.puppet.com/chocolatey/chocolatey
+* https://blogs.msdn.microsoft.com/powershell/2013/11/01/configuration-in-a-devops-world-windows-powershell-desired-state-configuration/
+*
 
