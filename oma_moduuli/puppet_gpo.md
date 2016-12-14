@@ -12,7 +12,7 @@ Moduuli on Linuxin keskitetty hallinta -kurssia varten luotu Puppet-moduuli. Tav
 
 ##2. Työympäristö
 
-Työssä on käytetty kahta fyysistä tietokonetta, joista toinen toimii Puppetmaster-palvelimena (Ubuntu 16.04.1 LTS 64-bit) ja toiselle on asennettu Windows 8.1 64-bittinen käyttöjärjestelmä ja joka toimii Puppet agenttina. Puppetmaster-palvelimena toimii Haaga-Helian laboratorioluokan 5005 tietokone ja agenttikoneena HP Elitebook 2560p.
+Työssä on käytetty kahta fyysistä tietokonetta, joista toinen toimii Puppetmaster-palvelimena (Ubuntu 16.04.1 LTS 64-bit) ja toiselle on asennettu Windows 8.1 64-bittinen käyttöjärjestelmä ja joka toimii Puppet agenttina. Puppetmaster-palvelimena toimii Haaga-Helian laboratorioluokan 5005 tietokone ja agenttikoneena HP Elitebook 2560p. Koneet ovat liitettynä samaan lähiverkkoon.
 
 ![alkuasetelma](alkuasetelma.jpg)
 
@@ -202,7 +202,9 @@ Lisätään init.pp -tiedostoon seuraava koodi.
 		}
 	}
 
-Moduuli ei toimi ja antoi useita virheitä. Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
+Lisätään moduuli vielä site.pp -tiedostoos.
+
+Moduuli ei toiminut ja antoi useita virheitä. Googlettamalla löysin yllättäen suomenkielisen Puppeteers.fi -sivuston, josta löytyi blogikirjoitus aiheella "Windowsin paikallisten ryhmäkäytäntöjen muokkaus Puppetilla" (https://www.puppeteers.fi/windowsin-paikallisten-ryhmakaytantojen-muokkaus-puppetilla/).
 
 	"Skaalautuvampi lähestymistapa olisi muokata Registry.pol-tiedoston yksittäisiä käytänteitä. Käytänteiden
 	määrittämiseen on olemassa oma Puppet-moduulikin, cannonps/local_group_policy, josta PuppetLabs paikutti 
