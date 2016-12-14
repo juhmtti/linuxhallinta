@@ -128,7 +128,7 @@ Toisin kuin Linux-käyttöjärjestelmissä, Windows-järjestelmissä ei ole asen
 
 Jotta Chocolateyta voidaan käyttää mooduleissa, vaatii se Chocolatey-moduulin asentamista Puppetforgesta. Tehdään tämä toimenpide.
 
-	$ sudo puppet module install chocolatey-chocolatey
+	$ sudo puppet module install puppetlabs-chocolatey
 
 Nyt voimme käyttää Chocolatey-moduulia. Muokataan aiemmin tehtyä firefox-moduulia ja käytetään package-resurssia.
 
